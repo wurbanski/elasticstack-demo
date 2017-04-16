@@ -1,7 +1,6 @@
 version: '2.1'
 
 services:
-
   kibana:
     image: docker.elastic.co/kibana/kibana:5.2.1
     networks:
@@ -33,7 +32,6 @@ services:
       es_net:
     volumes:
       - esdata2:/usr/share/elasticsearch/data
-
 
   elasticsearch3:
     image: docker.elastic.co/elasticsearch/elasticsearch:5.2.1
