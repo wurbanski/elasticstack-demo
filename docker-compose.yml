@@ -30,17 +30,32 @@ services:
     image: docker.elastic.co/logstash/logstash:5.3.1
     networks:
       es_net:
+        aliases:
+          - logstash
     expose:
       - "5000"
       - "5044"
     ports:
-      - "5000"
+      - "5000:5000"
       - "5044"
     volumes:
         - ./logstash/pipeline/:/usr/share/logstash/pipeline/
     mem_limit: 1g
     depends_on:
       - elasticsearch
+
+  httpd:
+    image: httpd:alpine
+    networks:
+      es_net:
+    ports:
+      - "80"
+    logging:
+      driver: syslog
+      options:
+          syslog-address: "tcp://localhost:5000"
+    depends_on:
+      - logstash
 
 networks:
   es_net:
